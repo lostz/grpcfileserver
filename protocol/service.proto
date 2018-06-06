@@ -1,0 +1,27 @@
+syntax = "proto3";
+package protocol;
+service GRPCFileService {
+    rpc Download(File) returns ( stream Chunk) {}
+    rpc Upload(stream Chunk)   returns(UploadStatus) {}
+}
+
+message Chunk {
+    string    Filepath    = 1;
+    int64     SizeInBytes = 2;
+    int64     SizeTotalBytes =3;
+    bytes     Content =4;
+    bool      IsLastChunk = 5;
+}
+
+message File {
+    string Filepath = 1;
+}
+enum StatusCode {
+    Unknown = 0;
+    Ok =1;
+    Failed=2;
+}
+message UploadStatus {
+    string  Filepath=1;
+    StatusCode Code=2;
+}
